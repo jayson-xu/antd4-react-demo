@@ -1,13 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router } from 'react-router-dom';
 
+import 'antd/dist/antd.css';
+import './index.css';
+
+const publicUrl = process.env.PUBLIC_URL;
+
+// 这里要包裹一个Router组件才能使用Switcha或withRouter高阶组件
 ReactDOM.render(
-  <React.StrictMode>
+  <Router basename={publicUrl}>
     <App />
-  </React.StrictMode>,
+  </Router>,
   document.getElementById('root')
 );
 
