@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Table } from 'antd';
 import axios from 'axios';
 
@@ -53,6 +53,28 @@ const TableDemo = () => {
     }
   }, []);
 
+  // 调整Table组件的高度，当数据不够时也撑满客户区
+  const adjustTableHeight = () => {
+    setTimeout(() => {
+      let elTable = document.querySelector('#table2 .ant-table-body table');
+      let elTbody = elTable.querySelector('tbody');
+      let tableBodyHeight = elTbody.offsetHeight;
+      //console.log('table height', tableBodyHeight);
+      let remainHeight = tableBodyHeight + 120; //这个120需要实际去计算除表格之外其他组件的高度之和
+      let divHeight = `calc(100vh - ${remainHeight}px)`;
+      //创建一个div，用于撑高table
+      var idOfDivBlank = 'div_blank_in_table2';
+      var divBlank = document.createElement('div');
+      divBlank.id = idOfDivBlank;
+      divBlank.style.height = divHeight;
+      let elExisted = document.getElementById(idOfDivBlank);
+      if (elExisted) {
+        elExisted.remove();
+      }
+      elTable.appendChild(divBlank);
+    }, 10);
+  };
+
   const handleTableChange = (pagination, filters, sorter) => {
     fetch({
       sortField: sorter.field,
@@ -76,18 +98,21 @@ const TableDemo = () => {
           // total: data.totalCount,
         },
       });
+      adjustTableHeight();
     });
   };
 
   const { data, pagination, loading } = state;
   return (
     <Table
+      id="table2"
       columns={columns}
       rowKey={record => record.login.uuid}
       dataSource={data}
       pagination={pagination}
       loading={loading}
       onChange={handleTableChange}
+      scroll={{ y: 'calc(100vh - 120px)' }}
     />
   );
 };
