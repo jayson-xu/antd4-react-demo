@@ -29,6 +29,7 @@ git branch -M main
 git remote add origin https://github.com/jayson-xu/antd4-react-demo.git
 git push -u origin main
 ```
+2021-8-13之后弃用账号密码的方式验证git操作，在settings页面中选择"Developer settings"，再选择"Personal access tokens"，点击"Generate new token"，勾选repo，生成新的Token，并把它记下来，在进行git操作时，依然输入账号，询问密码时输入token即可。
 
 ## 组件使用
 
